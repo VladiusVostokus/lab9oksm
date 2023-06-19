@@ -9,6 +9,10 @@ const PORT = 2005;
 const PASSWORD = 'MyBirthdayDay';
 
 const randomNum = (min,max) => Math.floor(Math.random() * (max - min) + min);
+
+const TURN = randomNum(-127,128);
+const SPEED = randomNum(0,256);
+const HEADLIGHTS = randomNum(0,2);
     
 
 
