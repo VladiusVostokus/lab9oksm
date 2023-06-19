@@ -4,33 +4,31 @@ const net = require('net');
 
 const HOST = '127.0.0.1';
 const PORT = 2005;
-const PASSWORD = 'MyBirthdayDay';
 
-const randomNum = (min,max) => Math.floor(Math.random() * (max - min) + min);
+const SPEED = '100';
+const LIGHT = '0';
 
-const TURN = randomNum(-127,128);
-const SPEED = randomNum(0,256);
-const HEADLIGHTS = randomNum(0,2);
+const remoteControl = new net.Socket();
 
-const client = new net.Socket();
+remoteControl.connect(PORT, HOST, () => {
 
-client.connect(PORT, HOST, () => {
-    
-    console.log("CONNECTED TO THE SERVER");
-    
-    client.write(TURN);
-    client.write(SPEED);
-    client.write(HEADLIGHTS);
-});
-   
+    const info = {
+        turn: 20,
+        speed: 100,
+        light: 0
+    };
 
-client.on('close', () => {
-    console.log('DISCONNECTED FROM SERVER');
+    console.log("CONNECTED TO SERVER");
+
+    remoteControl.write(JSON.stringify(info));
+
 });
 
+remoteControl.on('data', (data) => {
 
-    
-
-
-
-
+    console.log('\n');
+    console.log(data.toString())
+    console.log('\n');
+    console.log("DISCONECTED FROM SERVER");
+    remoteControl.end();
+});
